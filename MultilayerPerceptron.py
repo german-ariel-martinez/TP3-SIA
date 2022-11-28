@@ -68,8 +68,10 @@ class MultilayerPerceptron:
         for idx, nodes in enumerate(self.npl[:-1]):
             for i in range(0, nodes):
                 for j in range(0, self.npl[idx+1]):
-                    self.sem[i+pivot][pivot+nodes+j] += self.lr * self.nds[pivot+j].d * self.nds[i].v
-                    self.sem[pivot+nodes+j][i+pivot] += self.lr * self.nds[pivot+j].d * self.nds[i].v
+                    dw = self.lr * self.nds[pivot+nodes+j].d * self.nds[i+pivot].v + 0.8*self.nds[pivot+nodes+j].old_dw
+                    self.sem[i+pivot][pivot+nodes+j] += dw
+                    self.sem[pivot+nodes+j][i+pivot] += dw
+                    self.nds[pivot+j].old_dw = dw
             pivot += nodes
 
     def sem_print(self):
@@ -122,9 +124,12 @@ class MultilayerPerceptron:
                 self.backpropagation()
                 self.sem_update()
                 error += self.calculate_error(st)
+            error_history.append(error/len(self.st))
+            it.append(i)
             if (i % 1000 == 0):
-                print(i)
+                print(f'It: {i} - Error: {error} - Lr: {self.lr}')
             i += 1
+        return it, error_history
     
 
 

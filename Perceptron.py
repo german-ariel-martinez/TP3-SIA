@@ -3,11 +3,12 @@ import numpy as np
 class Perceptron:
 
     def __init__(self, l):
-        self.h = 0
-        self.v = 0
-        self.d = 0
+        self.h      = 0
+        self.v      = 0
+        self.d      = 0
+        self.old_dw = 0
         # Layer
-        self.l = l
+        self.l      = l
     
 
     def __str__(self):

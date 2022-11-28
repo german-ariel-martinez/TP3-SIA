@@ -55,8 +55,8 @@ def print_all_output(optimus):
         exit = propagate(optimus, Font3[h])
         print("\n-------------------------------------------------------------------------------------------\n")
         print("Character ->  \"", list(Font3_dict.keys())[list(Font3_dict.values()).index(Font3[h])], " \"\n")
-        print("Input --> |\n", Font3[h], "|\n")
-        print("Output -> |\n", exit, "|\n")
+        print("Input --> |\n", *printResult(Font3[h]), "\n")
+        print("Output -> |\n", *printResult(exit), "\n")
 
 #def print_all_output(optimus):
 #    for h in range(0, len(Font3)):
@@ -67,9 +67,10 @@ def print_all_output(optimus):
 #        print("Output -> |\n", *printResult(exit), "|\n")
 
 beta = 0.5
-learningRate = 0.001
+learningRate = 0.01
 e = len(Font3[0])
-mlp = MultilayerPerceptron([e,15,2,15,e], learningRate, beta, Font3, Font3, 2)
-mlp.run()
+mlp = MultilayerPerceptron([e,25,15,2,15,25,e], learningRate, beta, Font3, Font3, 2)
+it, err = mlp.run()
+plt.plot(it, err)
 run_Ej1a2(mlp)
 print_all_output(mlp)
